@@ -20,7 +20,9 @@
 
 [drag=30 10, drop=topright, font=bubblegum]
 
-@[4-15](Live Code Presenting)
+@[4-14](Packages for the Dashboard)
+@[4-8](Packages for the Dashboard)
+@[10-14](Packages for the Dashboard)
 
 ---
 
