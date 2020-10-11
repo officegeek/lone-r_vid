@@ -16,7 +16,7 @@
 
 [drag=99, drop=center, fit=1.2]
 
-@code[elixir](src/Dashboard.R)
+@code[r](src/Dashboard.R)
 
 [drag=30 10, drop=topright, font=bubblegum]
 
