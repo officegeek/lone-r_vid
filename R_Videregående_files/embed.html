@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://localhost:9000/gitpitch/desktop/embed#/ -->
+<html><script type="text/javascript" class="__REQUESTLY__SCRIPT">(function(namespace) {
+  window[namespace] = window[namespace] || {};
+  window[namespace].responseRules = {};
+
+  let open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(method) {
+    this.addEventListener('readystatechange', function() {
+      if (this.readyState === 4 && window[namespace].responseRules.hasOwnProperty(this.responseURL)) {
+        const responseRule = window[namespace].responseRules[this.responseURL];
+        const {response, id} = responseRule;
+        const responseType = this.responseType;
+        let customResponse;
+
+        customResponse = response.type === 'code' ? responseRule.evaluator({
+            method,
+            url: this.responseURL,
+            requestHeaders: this.requestHeaders,
+            requestData: this.requestData,
+            responseType: this.responseType,
+            response: this.response
+          }) : response.value;
+
+        Object.defineProperty(this, 'response', {
+          get: function () {
+            if (response.type === 'static' && responseType === 'json') {
+              return JSON.parse(customResponse);
+            }
+            return customResponse;
+          }
+        });
+
+        if (responseType === '' || responseType === 'text') {
+          Object.defineProperty(this, 'responseText', {
+            get: function () {
+              return customResponse;
+            }
+          });
+        }
+
+        window.postMessage({
+          from: 'requestly',
+          type: 'response_rule_applied',
+          id
+        }, window.location.href);
+      }
+    }, false);
+    open.apply(this, arguments);
+  };
+
+  let send = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.send = function(data) {
+    this.requestData = data;
+    send.apply(this, arguments);
+  };
+
+  let setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+  XMLHttpRequest.prototype.setRequestHeader = function(header, value) {
+    this.requestHeaders = this.requestHeaders || {};
+    this.requestHeaders[header] = value;
+    setRequestHeader.apply(this, arguments);
+  }
+})('__REQUESTLY__')</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title>GitPitch Quickstart</title>
+    <meta name="description" content="Slide Decks for Tech Conferences, Training, Developer Advocates, and Educators">
+    <meta name="keywords" content="Markdown, Presentation, Slides, Developer">
+    
+    <meta content="template" name="gitpitch">
+    
+    
+    
+    
+<link href="./reveal.css" rel="stylesheet" type="text/css">
+
+
+<link href="./template.css" rel="stylesheet" type="text/css">
+
+
+<link href="./PITCHME.template.css" rel="stylesheet" type="text/css" id="theme">
+
+<link href="./title-footer-mod.css" rel="stylesheet" type="text/css" id="theme">
+
+<link href="./paper.css" rel="stylesheet" type="text/css">
+
+
+<link href="./atom-one-light.css" rel="stylesheet" type="text/css">
+<link href="./octicons.css" rel="stylesheet" type="text/css">
+<link href="./fa-all.min.css" rel="stylesheet" type="text/css">
+<link href="./fa-v4-shims.min.css" rel="stylesheet" type="text/css">
+<link href="./twitter.min.css" rel="stylesheet" type="text/css">
+<link href="./asciinema-player.css" rel="stylesheet" type="text/css">
+<link href="./pitchcore.css" rel="stylesheet" type="text/css">
+
+
+
+
+<link href="./pitch.css" rel="stylesheet" type="text/css">
+<link href="./pitchmenu.css" rel="stylesheet" type="text/css">
+<link href="./menu.css" rel="stylesheet" type="text/css">
+
+
+<link href="./pitchbarlight.css" rel="stylesheet" type="text/css">
+
+
+<link href="./pitchcode.css" rel="stylesheet" type="text/css">
+<link href="./pitchpro.css" rel="stylesheet" type="text/css">
+<link href="./pitchgrid.css" rel="stylesheet" type="text/css">
+
+<link href="./animate-410.min.css" rel="stylesheet" type="text/css">
+<link href="./pitchanim.css" rel="stylesheet" type="text/css">
+
+
+<link href="./desktopgrid.css" rel="stylesheet" type="text/css">
+
+
+    
+    
+
+<style>
+// Your CSS custom style rules go here.
+
+
+</style>
+
+
+    
+    
+<script>
+if ("WebSocket" in window) {
+
+    var ws = new WebSocket("ws://localhost:9000/pitchme/watch");
+
+    ws.onopen = function() { };
+    ws.onmessage = function (evt) {
+        var received_msg = evt.data;
+        console.log("watchreload: data event=" + evt.data);
+        location.reload(false);
+    };
+
+    ws.onclose = function() {
+    };
+
+    window.onbeforeunload = function(event) {
+    };
+} else {
+    // The browser doesn't support WebSocket
+    console.log("GitPitch Desktop auto-reload disabled [no websockets].");
+}
+</script>
+
+    
+    
+    <link href="./pitchpost.css" rel="stylesheet" type="text/css">
+    
+    
+    <link href="./pitchtrial.css" rel="stylesheet" type="text/css"><script type="text/javascript" src="./marked.js.download"></script><script type="text/javascript" src="./markdown.js.download"></script><script type="text/javascript" src="./highlight.js.download"></script><script type="text/javascript" src="./reveal-code-focus-40.js.download"></script><script type="text/javascript" src="./twitter-embed-widgets.js.download"></script>
+</head>
+<body>
+    
+    <div class="reveal none center has-horizontal-slides ready" role="application" data-transition-speed="default" data-background-transition="none" style="cursor: none;">
+        <div class="slides" style="width: 1920px; height: 1080px; left: 50%; top: 50%; bottom: auto; right: auto; transform: translate(-50%, -50%) scale(0.470833);">
+            
+            <section data-charset="utf-8" style="top: 520px; display: block;" data-markdown="" data-markdown-parsed="true" class="present"><div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; left: 96px; top: 0px; width:614px; height:216px;">
+
+
+<h1><strong>R</strong></h1>
+
+
+</div>
+<div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; left: 960px; top: 540px; width:1728px; height:540px; font-size: 3.4em;transform: translate(-50%,-50%);">
+
+
+<h4>Programmering</h4>
+
+
+
+</div>
+<div id="trial-promo" class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 108px; width:307px; height:162px; background-color: black;font-size: 1.4em;">
+
+<p><a target="_blank" class="link-gold" href="http://localhost:9000/gitpitch/trial">GitPitch<br>4.0 Trial</a></p>
+
+</div>
+</section><section data-charset="utf-8" style="top: 520px; display: block;" data-markdown="" data-markdown-parsed="true" class="future" hidden="" aria-hidden="true"><div class="grid-target grid-flow grid-flow-col" style="position: fixed; left: 960px; top: 540px; width:1919px; height:1079px; font-size: 5.5em;transform: translate(-50%,-50%);">
+
+
+<h1>BIG</h1>
+
+
+
+</div>
+<div id="trial-promo" class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 108px; width:307px; height:162px; background-color: black;font-size: 1.4em;">
+
+<p><a target="_blank" class="link-gold" href="http://localhost:9000/gitpitch/trial">GitPitch<br>4.0 Trial</a></p>
+
+</div>
+</section><section data-charset="utf-8" style="top: 520px; display: block;" data-markdown="" data-markdown-parsed="true" class="future" hidden="" aria-hidden="true"><div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; left: 960px; top: 540px; width:576px; height:1079px; transform: translate(-50%,-50%);">
+
+
+<h2>Night</h2>
+<img src="./stars.jpg" title="" alt="" style="width: 400px;max-width: 576px;height: auto;max-height: 1079px;" data-image-key="9102096855133839470">
+<h2>Skies</h2>
+
+
+
+</div>
+<div id="trial-promo" class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 108px; width:307px; height:162px; background-color: black;font-size: 1.4em;">
+
+<p><a target="_blank" class="link-gold" href="http://localhost:9000/gitpitch/trial">GitPitch<br>4.0 Trial</a></p>
+
+</div>
+</section><section data-charset="utf-8" style="top: 520px; display: none;" data-markdown="" data-markdown-parsed="true" class="future" hidden="" aria-hidden="true"><div id="trial-promo" class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 108px; width:307px; height:162px; background-color: black;font-size: 1.4em;">
+
+<p><a target="_blank" class="link-gold" href="http://localhost:9000/gitpitch/trial">GitPitch<br>4.0 Trial</a></p>
+
+</div>
+</section><section data-charset="utf-8" style="top: 520px; display: none;" data-markdown="" data-markdown-parsed="true" hidden="" aria-hidden="true" class="future"><div class="grid-target grid-flow grid-stack" style="position: fixed; left: 0px; top: 540px; width:1344px; height:1079px; transform: translate(0,-50%);">
+
+
+<h2 class="fragment" data-fragment-index="0" style="width: auto; max-width: 1344px; height: auto; max-height: 1079px; ">Hello, World!</h2>
+<pre class="fragment" data-fragment-index="1" style="width: auto; max-width: 1344px; height: auto; max-height: 1079px; font-size: 0.9em;"><code class="hljs lang-elixir"><span class="line"><span class="line-number"></span><span class="hljs-class"><span class="hljs-keyword">defmodule</span> <span class="hljs-title">User</span></span> <span class="hljs-keyword">do</span></span><span class="line"><span class="line-number"></span>  <span class="hljs-keyword">use</span> Ecto.Schema</span><span class="line"><span class="line-number"></span>&nbsp;</span><span class="line"><span class="line-number"></span>  <span class="hljs-keyword">import</span> Ecto.Changeset</span><span class="line"><span class="line-number"></span>&nbsp;</span><span class="line"><span class="line-number"></span>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">changeset</span></span>(user, params \ %{}) <span class="hljs-keyword">do</span></span><span class="line"><span class="line-number"></span>    user</span><span class="line"><span class="line-number"></span>    |&gt; cast(params, [<span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:email</span>, <span class="hljs-symbol">:age</span>])</span><span class="line"><span class="line-number"></span>    |&gt; validate_required([<span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:email</span>])</span><span class="line"><span class="line-number"></span>    |&gt; validate_format(<span class="hljs-symbol">:email</span>, ~r/@/)</span><span class="line"><span class="line-number"></span>    |&gt; validate_inclusion(<span class="hljs-symbol">:age</span>, <span class="hljs-number">18</span>..<span class="hljs-number">100</span>)</span><span class="line"><span class="line-number"></span>  <span class="hljs-keyword">end</span></span><span class="line"><span class="line-number"></span><span class="hljs-keyword">end</span></span></code></pre>
+
+<img class="fragment" data-fragment-index="2" src="./dog-4.jpg" title="" alt="" style="width: 1000px;max-width: 1344px;height: auto;max-height: 1079px;box-sizing: border-box;border: 10px solid black;" data-image-key="841024170303460415">
+
+
+</div>
+<div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 540px; width:576px; height:432px; background-color: #117C3F;transform: translate(0,-50%) rotate(-45deg);">
+
+
+
+</div><div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col h2-white fragment" style="position: fixed; right: 0px; top: 540px; width:576px; height:432px; transform: translate(0,-50%);" data-fragment-index="0">
+<ul class="list-squash-bullets">
+<li class="fragment" data-fragment-index="0">
+<h2>Rich</h2>
+</li>
+<li class="fragment" data-fragment-index="1">
+<h2>Stack</h2>
+</li>
+<li class="fragment" data-fragment-index="2">
+<h2>Content</h2>
+</li>
+</ul>
+
+</div>
+
+
+<div id="trial-promo" class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 108px; width:307px; height:162px; background-color: black;font-size: 1.4em;">
+
+<p><a target="_blank" class="link-gold" href="http://localhost:9000/gitpitch/trial">GitPitch<br>4.0 Trial</a></p>
+
+</div>
+</section><section data-charset="utf-8" style="top: 520px; display: none;" data-markdown="" data-markdown-parsed="true" hidden="" aria-hidden="true" class="future"><div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; left: 960px; top: 540px; width:1900px; height:1069px; font-size: 1.5em;transform: translate(-50%,-50%);">
+
+
+<pre><code class="hljs lang-elixir"><span class="line"><span class="line-number"></span><span class="hljs-class"><span class="hljs-keyword">defmodule</span> <span class="hljs-title">User</span></span> <span class="hljs-keyword">do</span></span><span class="line"><span class="line-number"></span>  <span class="hljs-keyword">use</span> Ecto.Schema</span><span class="line"><span class="line-number"></span>&nbsp;</span><span class="line"><span class="line-number"></span>  <span class="hljs-keyword">import</span> Ecto.Changeset</span><span class="line"><span class="line-number"></span>&nbsp;</span><span class="line"><span class="line-number"></span>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">changeset</span></span>(user, params \ %{}) <span class="hljs-keyword">do</span></span><span class="line"><span class="line-number"></span>    user</span><span class="line"><span class="line-number"></span>    |&gt; cast(params, [<span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:email</span>, <span class="hljs-symbol">:age</span>])</span><span class="line"><span class="line-number"></span>    |&gt; validate_required([<span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:email</span>])</span><span class="line"><span class="line-number"></span>    |&gt; validate_format(<span class="hljs-symbol">:email</span>, ~r/@/)</span><span class="line"><span class="line-number"></span>    |&gt; validate_inclusion(<span class="hljs-symbol">:age</span>, <span class="hljs-number">18</span>..<span class="hljs-number">100</span>)</span><span class="line"><span class="line-number"></span>  <span class="hljs-keyword">end</span></span><span class="line"><span class="line-number"></span><span class="hljs-keyword">end</span></span></code></pre>
+
+
+
+</div>
+<div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 0px; width:576px; height:108px; font-family: bubblegum;">
+
+
+<span class="code-presenting-annotation fragment current-only" data-code-focus="1-2,4,6" data-fragment-index="0">Live Code Presenting</span>
+<span class="code-presenting-annotation fragment current-only" data-code-focus="7-8" data-fragment-index="1"></span>
+<span class="code-presenting-annotation fragment current-only" data-code-focus="7-9" data-fragment-index="2"></span>
+<span class="code-presenting-annotation fragment current-only" data-code-focus="7-10" data-fragment-index="3"></span>
+<span class="code-presenting-annotation fragment current-only" data-code-focus="7-11" data-fragment-index="4"></span>
+
+
+
+</div>
+<div id="trial-promo" class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 108px; width:307px; height:162px; background-color: black;font-size: 1.4em;">
+
+<p><a target="_blank" class="link-gold" href="http://localhost:9000/gitpitch/trial">GitPitch<br>4.0 Trial</a></p>
+
+</div>
+</section><section data-charset="utf-8" style="top: 540px; display: none;" data-markdown="" data-markdown-parsed="true" hidden="" aria-hidden="true" class="future"><div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col h1-gold animate__animated animate__gridspeedleft" style="position: fixed; left: 0px; top: 0px; width:652px; height:216px;">
+
+<h1>Quick</h1>
+
+
+</div>
+<div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; left: 960px; top: 540px; width:1919px; height:432px; font-size: 2.5em;transform: translate(-50%,-50%) rotate(-15deg);">
+
+<h1>Started</h1>
+
+
+</div>
+<div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col animate__animated animate__gridspeedright" style="position: fixed; right: 0px; bottom: 108px; width:230px; height:216px;">
+
+
+<p><i class="fa fa-smile fa-4x text-gold" aria-hidden="true"> </i></p>
+
+
+</div>
+<div class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; left: 960px; bottom: 0px; width:1919px; height:108px; transform: translate(-50%,0);">
+
+
+<p><a href="https://docs.gitpitch.com/#/whats-new-in-40" rel="noopener noreferrer" target="_blank">For the full set of features plus examples see the GitPitch docs <i class="fa fa-external-link" aria-hidden="true"> </i></a></p>
+
+
+</div>
+<div id="trial-promo" class="grid-target grid-flow grid-flow-col grid-flow grid-flow-col" style="position: fixed; right: 0px; top: 108px; width:307px; height:162px; background-color: black;font-size: 1.4em;">
+
+<p><a target="_blank" class="link-gold" href="http://localhost:9000/gitpitch/trial">GitPitch<br>4.0 Trial</a></p>
+</div></section>
+            
+
+          <div id="grid-container">
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+            <div id="grid-block"></div>
+          </div>
+
+        </div>
+        
+
+<footer id="title-footer" class="footer-visible"><p id="notification" class="footer-fade"> </p></footer>
+
+
+    <div class="backgrounds"><div class="slide-background present" data-loaded="true" style="display: block;"><div class="slide-background-content"></div></div><div class="slide-background future" data-loaded="true" style="display: block;"><div class="slide-background-content"></div></div><div class="slide-background future" data-loaded="true" style="display: block;"><div class="slide-background-content"></div></div><div class="slide-background future" style="display: none;" data-loaded="true"><div class="slide-background-content"></div></div><div class="slide-background future" style="display: none;" data-loaded="true"><div class="slide-background-content"></div></div><div class="slide-background future" style="display: none;" data-loaded="true"><div class="slide-background-content"></div></div><div class="slide-background future" style="display: none;"><div class="slide-background-content"></div></div></div><div class="progress" style="display: block;"><span style="width: 0px;"></span></div><aside class="controls" data-controls-layout="bottom-right" data-controls-back-arrows="faded" style="display: block;"><button class="navigate-left" aria-label="previous slide" disabled="disabled"><div class="controls-arrow"></div></button><button class="navigate-right highlight enabled" aria-label="next slide"><div class="controls-arrow"></div></button><button class="navigate-up" aria-label="above slide" disabled="disabled"><div class="controls-arrow"></div></button><button class="navigate-down" aria-label="below slide" disabled="disabled"><div class="controls-arrow"></div></button></aside><div class="slide-number" style="display: block;"><a href="http://localhost:9000/gitpitch/desktop/embed#/"><span class="slide-number-a">1</span><span class="slide-number-delimiter">/</span><span class="slide-number-b">7</span></a></div><div class="speaker-notes" data-prevent-swipe="" tabindex="0"></div><div class="pause-overlay"><button class="resume-button">Resume presentation</button></div><div id="aria-status-div" aria-live="polite" aria-atomic="true" style="position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px);">
+
+
+R
+
+
+
+
+
+
+Programmering
+
+
+
+
+
+
+GitPitch4.0 Trial
+
+
+</div></div>
+    
+    
+    <div class="gp-menu">
+        <div class="slide-menu-button">
+          
+          
+          
+          
+          
+        </div>
+    </div>
+    
+    
+
+    <script src="./reveal.js.download"></script>
+    <script src="./jquery.min.js.download"></script>
+    
+    
+    <script src="./smoothscroll.min.js.download"></script>
+    
+    <script src="./asciinema-player.js.download"></script>
+    
+
+    
+
+    <script>
+        Reveal.initialize({
+            
+            controls: true,
+            
+            progress: true,
+            controlsLayout: 'bottom-right',
+            embedded: true,
+            margin: 0.0,
+            
+            width: 1920,
+            height: 1080,
+            
+            
+            showNotes: false,
+            transition: 'none',
+            backgroundTransition: 'none',
+            autoSlide: 0,
+            loop: false,
+            center: true,
+            rtl: false,
+            shuffle: false,
+            mouseWheel: false,
+            
+            controlsTutorial: true,
+            
+            slideNumber: 'c/t', // slideNumber: false,
+            history: true,
+            
+            
+            menu: {
+              custom: [],
+              path : "/assets/libs/slides/plugin/menu",
+              themes : false,
+              transitions:  false,
+              markers: true,
+              sticky: true,
+              autoOpen: true
+            },
+            
+            
+            dependencies: [
+                { src: "/assets/libs/slides/plugin/markdown/marked.js",
+                  condition: function() {
+                    return !!document.querySelector( '[data-markdown]' );
+                  }},
+                { src: "/assets/libs/slides/plugin/markdown/markdown.js",
+                condition: function() {
+                  return !!document.querySelector( '[data-markdown]' );
+                }},
+                
+                
+                
+                { src: '/assets/libs/highlight.js/9.15.8/highlight.js', async: true },
+                
+                { src: '/assets/libs/highlight.js/9.15.8/reveal-code-focus-40.js',
+                  async: true,
+                  callback: function() {
+                    RevealCodeFocus();
+                  }
+                },
+                
+                
+                { src: "/assets/libs/js/twitter-embed-widgets.js", async: true },
+                
+                
+            ]
+        });
+
+        Reveal.addEventListener('ready', function(evt) {
+
+          if(typeof twtter !== "undefined") {
+              twttr.widgets.load();
+          }
+
+          upgradeAnchors();
+          pushFootnoteNotification();
+
+          var hIndex = sessionStorage.getItem("gshi");
+          var vIndex = sessionStorage.getItem("gsvi");
+          if(hIndex == null) { hIndex = 0; };
+          if(vIndex == null) { hIndex = 0; };
+          if(hIndex != 0 || vIndex != 0) {
+            Reveal.slide(hIndex, vIndex);
+          }
+
+          // Force refresh to workaround Reveal.js 3.8.0
+          // first render problem re. scrollHeight calc
+          // for slides with non-text (image) content.
+          setTimeout(Reveal.layout, 500);
+        });
+
+        Reveal.addEventListener('menu-ready', function(evt) {
+            manageMenuPolicy();
+        });
+
+        Reveal.addEventListener('slidechanged', function(evt) {
+            pushFootnoteNotification();
+            sessionStorage.setItem("gshi", evt.indexh);
+            sessionStorage.setItem("gsvi", evt.indexv);
+            
+              if (typeof parent.slideChanged === "function") {
+                parent.slideChanged(evt.indexh, evt.indexv);
+              }
+            
+        });
+
+        Reveal.configure({
+            keyboard: {
+                88: function() { // bind "x" key to "select" code block content
+
+                    var currentSlide = Reveal.getCurrentSlide();
+                    var preBlock = $(currentSlide).find("pre");
+
+                    if(preBlock.length > 0) {
+
+                        if (window.getSelection) {
+                            var range = document.createRange();
+                            range.selectNodeContents(preBlock[0]);
+                            var selection = window.getSelection();
+                            selection.removeAllRanges();
+                            selection.addRange(range);
+                        }
+                    }
+                }
+            }
+        });
+
+        function enterFullscreen() {
+            Reveal.triggerKey(70);
+        };
+
+        function enterOverview() {
+            Reveal.toggleOverview();
+        };
+
+        function enterBlackout() {
+            Reveal.togglePause();
+        };
+
+        function toggleHelp() {
+          Reveal.toggleHelp();
+        }
+
+        function enableEvents() {
+            Reveal.addEventListeners();
+        };
+
+        function disableEvents() {
+            Reveal.removeEventListeners();
+        };
+
+        function manageMenuPolicy() {
+            if(RevealMenu && RevealMenu.isOpen()) {
+                RevealMenu.toggle();
+            }
+        }
+
+        function toggleMenu() {
+          if(RevealMenu) {
+              RevealMenu.toggle();
+          }
+        }
+
+        
+        function nextSlide() {
+          if(Reveal) {
+              Reveal.next();
+          }
+        }
+        function prevSlide() {
+          if(Reveal) {
+              Reveal.prev();
+          }
+        }
+        function goSlide(h, v) {
+          if(Reveal) {
+              Reveal.slide(h, v);
+          }
+        }
+        function currentSlide() {
+          var current = { h: 0, v: 0 };
+          if(Reveal) {
+              current = Reveal.getIndices();
+          }
+          return current;
+        }
+        
+
+        function upgradeAnchors() {
+            Array.from(document.getElementsByTagName('a')).forEach($link => {
+              if ($link.hostname !== window.location.hostname) {
+                $link.setAttribute('rel', 'noopener noreferrer');
+                $link.setAttribute('target', '_blank');
+              }
+            });
+        }
+
+    </script>
+
+    
+    <script>
+        Reveal.configure({
+            keyboard: {
+              83: upgradeTrial,
+              
+              81: goDeckManager,
+              
+              84: launchThemeBuilder,
+              
+              67: launchConfidentialMode,
+              87: launchWhiteboard,
+              
+              
+            }
+        });
+        function upgradeTrial() {
+            console.log("Trial mode, upgrade now.");
+            window.open('/gitpitch/trial', '_blank');
+        }
+        function goHome() {
+            window.location.href = "/";
+        }
+        function goDeckManager() {
+            window.location.href = "/gitpitch/decks";
+        }
+        function launchThemeBuilder() {
+            window.open('/gitpitch/hq/quickstart', 'themeBuilder', 'width=400,height=750,toolbar=no,location=no');
+        }
+        function launchWhiteboard() {
+            window.open('/gitpitch/whiteboard/index.html');
+        }
+        function launchOfflinePublishing() {
+            window.location.href =
+                "/gitpitch/offline/publishing" + document.location.search;
+        }
+        function launchOnlinePublishing() {
+            window.open('https://docs.gitpitch.com/#/cloud/');
+        }
+        function launchEditMode() {
+            window.location.href =
+                "/gitpitch/desktop/edit" + document.location.search;
+        }
+        function launchIdeMode() {
+            window.location.href =
+                "/gitpitch/desktop/ide" + document.location.search;
+        }
+        function launchLiveMode() {
+            window.location.href =
+                "/gitpitch/desktop/live" + document.location.search;
+        }
+        function launchConfidentialMode() {
+            window.location.href =
+                "/gitpitch/confidential" + document.location.search;
+        }
+    </script>
+
+    
+
+<script>
+    function pushNotification(msg, fade) {
+      var footer = document.getElementById('title-footer')
+      var notification = document.getElementById('notification')
+      if(window.innerWidth < 700) {
+        footer.className = "footer-hidden";
+      } else {
+          footer.className = "footer-visible";
+          if(fade) {
+            notification.className = "footer-fade";
+            notification.innerHTML = msg;
+          } else {
+            notification.className = "footer-hard";
+            notification.innerHTML = msg;
+          }
+      }
+    };
+
+    function pushFootnoteNotification() {
+      
+        pushNotification(" ", true);
+      
+    }
+
+    
+      function pushHelpNotification() {
+        pushFootnoteNotification();
+      }
+    
+
+    function pushCodePresentingStepNotification(step, frags) {
+      // pushNotification("Code Presenting - Step " + step + " / " + frags, true);
+    }
+</script>
+
+
+    <script>
+      function updateGridPosition(event) {
+        // console.log("xy: " + event.clientX + ", " + event.clientY);
+      }
+    </script>
+
+
+
+<iframe scrolling="no" frameborder="0" allowtransparency="true" src="./widget_iframe.68dbfddc56b3f0522044700c1abcd1dc.html" title="Twitter settings iframe" style="display: none;"></iframe></body></html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://localhost:9000/gitpitch/desktop/edit -->
+<html class="js-focus-visible" data-js-focus-visible=""><script type="text/javascript" class="__REQUESTLY__SCRIPT">(function(namespace) {
+  window[namespace] = window[namespace] || {};
+  window[namespace].responseRules = {};
+
+  let open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(method) {
+    this.addEventListener('readystatechange', function() {
+      if (this.readyState === 4 && window[namespace].responseRules.hasOwnProperty(this.responseURL)) {
+        const responseRule = window[namespace].responseRules[this.responseURL];
+        const {response, id} = responseRule;
+        const responseType = this.responseType;
+        let customResponse;
+
+        customResponse = response.type === 'code' ? responseRule.evaluator({
+            method,
+            url: this.responseURL,
+            requestHeaders: this.requestHeaders,
+            requestData: this.requestData,
+            responseType: this.responseType,
+            response: this.response
+          }) : response.value;
+
+        Object.defineProperty(this, 'response', {
+          get: function () {
+            if (response.type === 'static' && responseType === 'json') {
+              return JSON.parse(customResponse);
+            }
+            return customResponse;
+          }
+        });
+
+        if (responseType === '' || responseType === 'text') {
+          Object.defineProperty(this, 'responseText', {
+            get: function () {
+              return customResponse;
+            }
+          });
+        }
+
+        window.postMessage({
+          from: 'requestly',
+          type: 'response_rule_applied',
+          id
+        }, window.location.href);
+      }
+    }, false);
+    open.apply(this, arguments);
+  };
+
+  let send = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.send = function(data) {
+    this.requestData = data;
+    send.apply(this, arguments);
+  };
+
+  let setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+  XMLHttpRequest.prototype.setRequestHeader = function(header, value) {
+    this.requestHeaders = this.requestHeaders || {};
+    this.requestHeaders[header] = value;
+    setRequestHeader.apply(this, arguments);
+  }
+})('__REQUESTLY__')</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title>GitPitch Quickstart</title>
+    <meta name="description" content="GitPitch Desktop">
+    <link href="./R_Videregående_files/fa-all.min.css" rel="stylesheet" type="text/css">
+    <link href="./R_Videregående_files/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="./R_Videregående_files/codemirror.css" rel="stylesheet" type="text/css">
+    <link href="./R_Videregående_files/dialog.css" rel="stylesheet" type="text/css">
+    <link href="./R_Videregående_files/matchesonscrollbar.css" rel="stylesheet" type="text/css">
+    <link href="./R_Videregående_files/show-hint.css" rel="stylesheet" type="text/css">
+    <link href="./R_Videregående_files/pitcheditor.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+@font-face {
+  font-weight: 400;
+  font-style:  normal;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-weight: 400;
+  font-style:  italic;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-weight: 500;
+  font-style:  normal;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-weight: 500;
+  font-style:  italic;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-MediumItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-weight: 700;
+  font-style:  normal;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-weight: 700;
+  font-style:  italic;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-BoldItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-weight: 900;
+  font-style:  normal;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-Black.woff2') format('woff2');
+}
+@font-face {
+  font-weight: 900;
+  font-style:  italic;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-BlackItalic.woff2') format('woff2');
+}</style></head>
+
+  <body class="clickup-chrome-ext_installed" cz-shortcut-listen="true">
+
+    <div class="grid-container">
+      <div class="deck">
+        <p style="font-size: 0.85em; color: gray; margin-bottom: 0.25em;">GitPitch Live Slide Deck Preview</p>
+        <div class="embed-responsive embed-responsive-16by9 deck-boxed-content">
+          <iframe id="gitpitch-slide-deck" class="embed-responsive-item" src="./R_Videregående_files/embed.html" allowfullscreen=""></iframe>
+        </div>
+      </div>
+      <div class="editor">
+        <div class="actions">
+          <div style="align-items: start;">
+          <a onclick="goDeckManager(event)" title="Return to the Slide Deck Manager"><i class="fas fa-home fa-lg fa-pad-right"></i></a> <a href="http://localhost:9000/gitpitch/offline/publishing" title="Open the Offline Publishing Manager [PDF,PPTX]"><i class="fas fa-download fa-lg fa-pad-right"></i></a> <a href="https://docs.gitpitch.com/#/cloud/" title="Open the Online Publishing Guide [gitpitch.com]" target="_blank"><i class="fas fa-upload fa-lg fa-pad-right"></i></a>
+          </div>
+         
+          <div> 
+          <a onclick="goPrevSlide(); return false;" title="Go to Previous Slide or Fragment"><i class="fas fa-backward fa-lg fa-pad-right"></i></a>
+          <a onclick="saveMarkdown(&#39;&#39;)" title="Save Markdown in Editor, [ Cmd-S/Ctrl-S ]"><i class="fas fa-save fa-lg fa-pad-right"></i></a>
+          <a onclick="reloadDeckAndMarkdown()" title="Reload Slide Deck and Markdown"><i class="fas fa-sync-alt fa-lg fa-pad-right"></i></a>
+          <a onclick="goNextSlide(); return false;" title="Go to Next Slide or Fragment"><i class="fas fa-forward fa-lg fa-pad-right"></i></a>
+          </div>
+         
+          <div style="align-items: end;"> 
+          <a href="http://localhost:9000/gitpitch/desktop/ide" title="Switch to Desktop IDE Mode"><i class="fas fa-external-link-square-alt fa-lg fa-pad-right"></i></a> <a class="live-mode" onclick="launchLiveMode()" title="Switch to Desktop Live Mode"><i class="fas fa-bolt fa-pad-right live-mode"></i></a> <a href="https://docs.gitpitch.com/#/desktop/" target="_blank" title="Open the GitPitch Documentation"><i class="fas fa-question-circle fa-lg"></i></a>
+          </div>
+        </div>
+        <div class="editor-container editor-boxed-content" data-children-count="2">
+        <textarea id="codeEditor" style="display: none;">[drag=32 20, drop=5 0]
+
+# **R**
+
+[drag=90 50, drop=center, fit=3.4]
+
+#### Programmering
+
+---
+
+[drag=100, fit=5.5]
+
+# BIG
+
+---
+
+[drag=30 100, drop=center]
+
+## Night
+![width=400](assets/img/stars.jpg)
+## Skies
+
+---
+---
+
+[drag=70 100, drop=left, flow=stack, sync=true]
+
+## Hello, World!
+@code[elixir, fit=0.9](src/demo.ex)
+![width=1000, border=10px solid black](assets/img/dog-4.jpg)
+
+[drag=30 40, drop=right, bg=#117C3F, rotate=-45]
+
+@ul[list-squash-bullets, drag=30 40, drop=right, set=h2-white, sync=true]
+- ## Rich
+- ## Stack
+- ## Content
+@ul
+
+---
+
+[drag=99, drop=center, fit=1.5]
+
+@code[elixir](src/demo.ex)
+
+[drag=30 10, drop=topright, font=bubblegum]
+
+@[1-2,4,6](Live Code Presenting)
+@[7-8]
+@[7-9]
+@[7-10]
+@[7-11]
+
+---
+
+[drag=34 20, drop=topleft, set=h1-gold, animate=speedleft]
+# Quick 
+
+[drag=100 40, drop=center, fit=2.5, rotate=-15]
+# Started
+
+[drag=12 20, drop=-0 -10, animate=speedright]
+
+@fa[smile fa-4x text-gold]
+
+[drag=100 10, drop=bottom]
+
+[For the full set of features plus examples see the GitPitch docs @fa[external-link]](https://docs.gitpitch.com/#/whats-new-in-40)
+
+        </textarea><div class="CodeMirror cm-s-default CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 3.99304px; left: 43.993px;" data-children-count="1"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;" aria-label="GitPitch Markdown Editor" tabindex="0"></textarea></div><div class="CodeMirror-vscrollbar" tabindex="-1" cm-not-content="true" style="display: block; bottom: 0px;"><div style="min-width: 1px; height: 1849px;"></div></div><div class="CodeMirror-hscrollbar" tabindex="-1" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 34px; margin-bottom: -18px; border-right-width: 32px; min-height: 1848px; padding-right: 18px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors"><div class="CodeMirror-cursor" style="left: 10px; top: 0px; height: 25.5556px;">&nbsp;</div></div><div class="CodeMirror-code" role="presentation" style=""><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[drag=32 20, drop=5 0]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"># **R**</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[drag=90 50, drop=center, fit=3.4]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">#### Programmering</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">---</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[drag=100, fit=5.5]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"># BIG</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">---</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">16</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">17</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[drag=30 100, drop=center]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">18</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">19</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">## Night</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">20</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">![width=400](assets/img/stars.jpg)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">21</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">## Skies</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">22</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">23</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">---</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">24</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">---</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">25</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">26</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[drag=70 100, drop=left, flow=stack, sync=true]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">27</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">28</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">## Hello, World!</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">29</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@code[elixir, fit=0.9](src/demo.ex)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">30</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">![width=1000, border=10px solid black](assets/img/dog-4.jpg)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">31</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">32</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[drag=30 40, drop=right, bg=#117C3F, rotate=-45]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">33</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">34</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@ul[list-squash-bullets, drag=30 40, drop=right, set=h2-white, sync=true]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -33.993px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 24px;">35</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- ## Rich</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 32px; width: 1px; border-bottom: 0px solid transparent; top: 1848px;"></div><div class="CodeMirror-gutters" style="height: 1880px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 33px;"></div></div></div></div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="space-right">Find: Cmd-F / Ctrl-F</span> Markdown Editor <span class="space-left">Save: Cmd-S / Ctrl-S</span>
+      </div>
+    </div>
+
+    <script src="./R_Videregående_files/hotkeys.min.js.download"></script>
+    <script src="./R_Videregående_files/codemirror.js.download"></script>
+    <script src="./R_Videregående_files/dialog.js.download"></script>
+    <script src="./R_Videregående_files/searchcursor.js.download"></script>
+    <script src="./R_Videregående_files/search.js.download"></script>
+    <script src="./R_Videregående_files/matchesonscrollbar.js.download"></script>
+    <script src="./R_Videregående_files/annotatescrollbar.js.download"></script>
+    <script src="./R_Videregående_files/jump-to-line.js.download"></script>
+    <script src="./R_Videregående_files/show-hint.js.download"></script>
+    <script src="./R_Videregående_files/pitchmirror.js.download"></script>
+    <script type="text/javascript">
+    function saveMarkdown(pitchme) {
+        req=new XMLHttpRequest();
+        let url = new URL('http://localhost:9000/gitpitch/desktop/save');
+        req.open("POST", url, true);
+        req.setRequestHeader('Content-Type','text/plain; charset=utf-8');
+        req.send(codemirror.getValue());
+    }
+    function reloadDeckAndMarkdown() {
+       location.reload();
+    }
+    function launchLiveMode() {
+      window.location.href =
+          "/gitpitch/desktop/live";
+    }
+    document.getElementById('gitpitch-slide-deck').focus();
+    function goDeckManager(event) {
+      event.preventDefault();
+      sessionStorage.removeItem("gshi");
+      sessionStorage.removeItem("gsvi");
+      window.location = "/gitpitch/decks";
+    }
+    </script>
+
+  
+
+
+</body><loom-container id="lo-engage-ext-container"><div></div><loom-shadow classname="resolved"></loom-shadow></loom-container></html>

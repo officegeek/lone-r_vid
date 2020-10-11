@@ -1,0 +1,150 @@
+var ce = document.getElementById("codeEditor");
+
+CodeMirror.defineExtension("scrollLineToTop", function(line) {
+  var h = this.getScrollInfo().clientHeight;
+  if(line < 2) { line = 0; }
+  var coords = this.charCoords({line: line, ch: 0}, "local");
+  this.scrollTo(null, (coords.top));
+});
+
+var codemirror = CodeMirror.fromTextArea(ce, {
+  lineNumbers: true,
+  lineWrapping: true,
+  gutter: true,
+  autofocus: false,
+  dragDrop: false,
+  screenReaderLabel: "GitPitch Markdown Editor",
+  extraKeys: {"Alt-F": "findPersistent",
+              "Cmd-Space" : function() { snippet() },
+              "Ctrl-Space" : function() { snippet() }}
+});
+
+codemirror.on("scroll", function(cm, from, to) {
+  var topLine =
+    codemirror.lineAtHeight(codemirror.display.scroller.getBoundingClientRect().top);
+  calcSlideInFocus(topLine);
+});
+
+const snippetsX = [
+{ text: '[', displayText: 'Block Widget' },
+{ text: '@code', displayText: 'Code widget' },
+{ text: '@cloud', displayText: 'Cloud widget' }
+]
+
+const snippets = [
+  { text: '[',
+    displayText: 'Layout Block Widget:\n[drag=width height,\n drop=x y _centerX _centerY,\n flow=col | row | stack,\n set=styles.. | behaviors..,\n border=width style color,\n fit=0.1..99.99,\n font=family,\n pad=top right bottom left, \n sync=true | false,\n animate=slidexxx | bouncexxx | speedxxx | fadexxx | tada | flip]'
+  },
+  { text: '![',
+    displayText: 'Image Widget:\n![styles...,\n width=px,\n height=px,\n opacity=0.1..1.0,\n rotate=deg,\n skewx=deg,\n skewy=deg,\n alt=text,\n title=text,\n filters=blur | bright | contrast | grayscale | hue | invert | saturate | sepia]'
+  },
+  { text: '@mermaid',
+    displayText: 'Mermaid Widget:\n@mermaid[\n styles...,\n width=px,\n height=px,\n opacity=0.1..1.0,\n rotate=deg,\n skewx=deg,\n skewy=deg,\n alt=text,\n title=text,\n bg=color,\n theme=default | dark | forest | neutral,\n filters=blur | bright | contrast | grayscale | hue | invert | saturate | sepia](path/to/file.mmd)'
+  },
+  { text: '@plantuml',
+    displayText: 'PlantUML Widget:\n@plantuml[\n styles...,\n width=px,\n height=px,\n opacity=0.1..1.0,\n rotate=deg,\n skewx=deg,\n skewy=deg,\n alt=text,\n title=text,\n filters=blur | bright | contrast | grayscale | hue | invert | saturate | sepia](path/to/file.puml)'
+  },
+  { text: '@cloud',
+    displayText: 'Cloud Widget:\n@cloud[\n styles...,\n width=px,\n height=px,\n opacity=0.1..1.0,\n rotate=deg,\n skewx=deg,\n skewy=deg,\n alt=text,\n title=text,\n filters=blur | bright | contrast | grayscale | hue | invert | saturate | sepia](path/to/file.py)'
+  },
+  { text: '@code',
+    displayText: 'Code Widget:\n@code[lang-hint _zoom-xx _code-noblend](path/to/file.ext)\n@code[lang-hint _zoom-xx _code-noblend](path/to/file.ext?lines=line,,)\n@code[lang-hint _zoom-xx _code-noblend](path/to/file.ext?tags=tag,,)'
+  },
+  { text: '@gist',
+    displayText: 'GIST Widget:\n@gist[lang-hint _zoom-xx _code-noblend](user/gistid)\n@gist[lang-hint _zoom-xx _code_noblend](user/gistid?filename=file.ext)'
+  },
+  { text: '@diff',
+    displayText: 'Git Diff Widget:\n@diff[lang-hint _zoom-xx _code-noblend](user/repo/commitid)\n@gist[lang-hint _zoom-xx _nofrags _code_noblend](user/repo/commitid)'
+  },
+  { text: '@whiteboard',
+    displayText: 'Whiteboard Widget:\n@whiteboard[\n drag=width height,\n drop=x y _centerX _centerY,\n set=styles..,\n border=width style color,\n pad=top right bottom left]'
+  },
+] 
+
+function snippet() {
+  CodeMirror.showHint(codemirror, function () {
+    const cursor = codemirror.getCursor()
+    const token = codemirror.getTokenAt(cursor)
+    const start = token.start
+    const end = cursor.ch
+    const line = cursor.line
+    const currentWord = token.string
+
+    const list = snippets.filter(function (item) {
+      return item.text.indexOf(currentWord) >= 0
+    })
+
+    return {
+      list: list.length ? list : snippets,
+      from: CodeMirror.Pos(line, start),
+      to: CodeMirror.Pos(line, end)
+    }
+  }, { completeSingle: false })
+}
+
+hotkeys('command+s,ctrl+s,alt+s', function (event, handler) {
+saveMarkdown('@ssm.params().pitchme');
+return false;
+});
+
+hotkeys.filter = function(event){
+return true;
+}
+
+function calcSlideInFocus(topLine) {
+    var current = currentSlide();
+    var adjusted = { h: 0, v: 0 };
+    if(topLine > 0) {
+      for (i = 1; i < topLine + 2; i++) {
+        var line = codemirror.getLine(i);
+        if(line.startsWith('---')) {
+            adjusted.h++;
+            adjusted.v = 0;
+        } else
+        if(line.startsWith('+++')) {
+            adjusted.v++;
+        }
+      }
+    }
+    if(current.h != adjusted.h || current.v != adjusted.v) {
+        goSlide(adjusted.h, adjusted.v);
+    }
+}
+function calcLineInFocus(h, v) {
+    var current = { h: 0, v: 0 };
+    var linesCounted = 0;
+    var totalLines = codemirror.lineCount();
+    for (i = 1; i <= totalLines; i++) {
+      var line = codemirror.getLine(i);
+      linesCounted++;
+      if(line.startsWith('---')) {
+          current.h++;
+          current.v = 0;
+      } else
+      if(line.startsWith('+++')) {
+          current.v++;
+      }
+      if(current.h == h && current.v == v) {
+          break;
+      }
+    }
+    return linesCounted;
+}
+function goPrevSlide() {
+    document.getElementById('gitpitch-slide-deck').contentWindow.prevSlide();
+}
+function goNextSlide() {
+    document.getElementById('gitpitch-slide-deck').contentWindow.nextSlide();
+}
+function goSlide(h, v) {
+    document.getElementById('gitpitch-slide-deck').contentWindow.goSlide(h,v);
+}
+function currentSlide() {
+    return document.getElementById('gitpitch-slide-deck').contentWindow.currentSlide();
+}
+function slideChanged(h, v) {
+    lineInFocus = calcLineInFocus(h, v);
+    codemirror.scrollLineToTop(lineInFocus);
+    sessionStorage.setItem("gshi", h);
+    sessionStorage.setItem("gsvi", v);
+}

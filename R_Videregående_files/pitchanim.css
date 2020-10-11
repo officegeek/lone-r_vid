@@ -1,0 +1,28 @@
+div.animate__gridslidedown.fragment.visible { animation-name: backInDown; }
+.reveal .slides section.present div.animate__gridslidedown:not(.fragment) { animation-name: backInDown; }
+div.animate__gridslideup.fragment.visible { animation-name: backInUp; }
+.reveal .slides section.present div.animate__gridslideup:not(.fragment) { animation-name: backInUp; }
+div.animate__gridslideright.fragment.visible { animation-name: backInLeft; }
+.reveal .slides section.present div.animate__gridslideright:not(.fragment) { animation-name: backInLeft; }
+div.animate__gridslideleft.fragment.visible { animation-name: backInRight; }
+.reveal .slides section.present div.animate__gridslideleft:not(.fragment) { animation-name: backInRight; }
+div.animate__gridbouncedown.fragment.visible { animation-name: bounceInDown; }
+.reveal .slides section.present div.animate__gridbouncedown:not(.fragment) { animation-name: bounceInDown; }
+div.animate__gridbounceup.fragment.visible { animation-name: bounceInUp; }
+.reveal .slides section.present div.animate__gridbounceup:not(.fragment) { animation-name: bounceInUp; }
+div.animate__gridbounceright.fragment.visible { animation-name: bounceInLeft; }
+.reveal .slides section.present div.animate__gridbounceright:not(.fragment) { animation-name: bounceInLeft; }
+div.animate__gridbounceleft.fragment.visible { animation-name: bounceInRight; }
+.reveal .slides section.present div.animate__gridbounceleft:not(.fragment) { animation-name: bounceInRight; }
+div.animate__gridtada.fragment.visible { animation-name: tada; }
+.reveal .slides section.present div.animate__gridtada:not(.fragment) { animation-name: tada; }
+div.animate__gridspeedright.fragment.visible { animation-name: lightSpeedInLeft; }
+.reveal .slides section.present div.animate__gridspeedright:not(.fragment) { animation-name: lightSpeedInLeft; }
+div.animate__gridspeedleft.fragment.visible { animation-name: lightSpeedInRight; }
+.reveal .slides section.present div.animate__gridspeedleft:not(.fragment) { animation-name: lightSpeedInRight; }
+div.animate__gridfadein.fragment.visible { animation-name: fadeIn; }
+.reveal .slides section.present div.animate__gridfadein:not(.fragment) { animation-name: fadeIn; }
+div.animate__gridfadeout.fragment.visible { animation-name: fadeOut; }
+.reveal .slides section.present div.animate__gridfadeout:not(.fragment) { animation-name: fadeOut; }
+div.animate__gridflip.fragment.visible { animation-name: flipInX; }
+.reveal .slides section.present div.animate__gridflip:not(.fragment) { animation-name: flipInX; }
