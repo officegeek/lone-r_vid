@@ -26,7 +26,7 @@
 
 ---
 
-[drag=99, drop=center, fit=1.2]
+[drag=99, drop=center, fit=scale]
 
 @code[elixir](src/Dashboard.R)
 
